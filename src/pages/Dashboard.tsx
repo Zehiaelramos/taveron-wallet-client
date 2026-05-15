@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useUI } from '../context/UIContext';
+import { useSettings } from '../context/SettingsContext';
 import apiClient from '../api/client';
 import PaymentMethodCard from '../components/features/PaymentMethodCard';
 import { CardSkeleton } from '../components/ui/Skeleton';
@@ -20,8 +21,14 @@ import {
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const { currency } = useSettings();
   const { openAddMethodModal, openMethodDetails } = useUI();
   const [filterType, setFilterType] = useState<PaymentMethodType | 'all'>('all');
+
+  const formatValue = (value: number) => {
+    const symbols: Record<string, string> = { MXN: '$', USD: 'US$', EUR: '€' };
+    return `${symbols[currency] || '$'}${value.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+  };
 
   // Fetch de los métodos de pago usando React Query con soporte de filtros
   const { 
@@ -42,7 +49,7 @@ const Dashboard: React.FC = () => {
   });
 
   const stats = [
-    { label: 'Total en Billetera', value: '$12,450.00', icon: Wallet, color: 'text-primary' },
+    { label: 'Total en Billetera', value: formatValue(12450), icon: Wallet, color: 'text-primary' },
     { label: 'Métodos Activos', value: methods.length.toString(), icon: CreditCard, color: 'text-blue-400' },
     { label: 'Cuentas Bancarias', value: methods.filter(m => m.type === 'bank' || m.type === 'clabe').length.toString(), icon: Landmark, color: 'text-purple-400' },
   ];

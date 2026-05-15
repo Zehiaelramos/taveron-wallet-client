@@ -74,9 +74,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **6.1 Sistema de Temas y Acentos**
     - [x] Implementar selector de colores de acento (Taveron Green, Ocean Blue, Sunset Orange).
     - [x] Persistencia de preferencias en LocalStorage/API.
-- [ ] **6.2 Preferencias Regionales**
-    - [ ] Selector de moneda predeterminada (MXN, USD, EUR).
-    - [ ] Ajuste de formatos de fecha y números.
+- [x] **6.2 Preferencias Regionales**
+    - [x] Selector de moneda predeterminada (MXN, USD, EUR).
+    - [x] Ajuste de formatos de fecha y números.
 - [ ] **6.3 Gestión de Cuenta Básica**
     - [ ] Formulario de actualización de perfil (Nombre/Apellido).
 

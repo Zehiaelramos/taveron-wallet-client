@@ -4,19 +4,16 @@ import {
   Palette, 
   Check, 
   Moon, 
-  Sun, 
   Globe, 
-  Shield, 
-  Bell, 
   User as UserIcon,
-  CreditCard
+  ChevronRight
 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { useSettings, type AccentColor, type Currency } from '../context/SettingsContext';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../hooks/useAuth';
 
 const Settings: React.FC = () => {
-  const { accentColor, setAccentColor } = useTheme();
+  const { accentColor, setAccentColor, currency, setCurrency } = useSettings();
   const { showToast } = useToast();
   const { user } = useAuth();
 
@@ -27,9 +24,20 @@ const Settings: React.FC = () => {
     { id: 'purple', name: 'Deep Purple', color: 'bg-[#a855f7]' },
   ] as const;
 
-  const handleThemeChange = (id: typeof themes[number]['id']) => {
+  const currencies = [
+    { id: 'MXN', name: 'Peso Mexicano', symbol: '$' },
+    { id: 'USD', name: 'Dólar Estadounidense', symbol: 'US$' },
+    { id: 'EUR', name: 'Euro', symbol: '€' },
+  ] as const;
+
+  const handleThemeChange = (id: AccentColor) => {
     setAccentColor(id);
     showToast(`Tema ${id === 'default' ? 'Taveron' : id} activado`);
+  };
+
+  const handleCurrencyChange = (id: Currency) => {
+    setCurrency(id);
+    showToast(`Moneda cambiada a ${id}`);
   };
 
   const sections = [
@@ -76,9 +84,46 @@ const Settings: React.FC = () => {
                 <p className="text-xs text-muted">Optimizado para pantallas OLED</p>
               </div>
             </div>
-            <div className="w-12 h-6 bg-primary rounded-full relative">
+            <div className="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
               <div className="absolute right-1 top-1 w-4 h-4 bg-background rounded-full shadow-md" />
             </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: 'Preferencias Regionales',
+      icon: Globe,
+      description: 'Configura tu moneda y formatos locales.',
+      content: (
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <label className="text-sm font-medium text-muted">Moneda Predeterminada</label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {currencies.map((curr) => (
+                <button
+                  key={curr.id}
+                  onClick={() => handleCurrencyChange(curr.id)}
+                  className={`
+                    flex items-center justify-between p-4 rounded-2xl border transition-all
+                    ${currency === curr.id 
+                      ? 'bg-primary/10 border-primary text-primary' 
+                      : 'bg-white/5 border-white/10 text-muted hover:text-white hover:bg-white/10'}
+                  `}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="text-xs font-bold uppercase">{curr.id}</span>
+                    <span className="text-[10px] opacity-60">{curr.name}</span>
+                  </div>
+                  <span className="text-lg font-bold">{curr.symbol}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10">
+            <p className="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Nota</p>
+            <p className="text-xs text-muted">Los valores en el Dashboard se mostrarán en la moneda seleccionada utilizando el símbolo correspondiente.</p>
           </div>
         </div>
       )
@@ -111,23 +156,6 @@ const Settings: React.FC = () => {
           <button className="btn-primary w-full sm:w-auto">Guardar Cambios</button>
         </div>
       )
-    },
-    {
-      title: 'Preferencias Regionales',
-      icon: Globe,
-      description: 'Configura tu moneda y formatos locales.',
-      content: (
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-muted">Moneda Predeterminada</label>
-            <select className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-primary/50">
-              <option value="MXN">Peso Mexicano (MXN)</option>
-              <option value="USD">Dólar Estadounidense (USD)</option>
-              <option value="EUR">Euro (EUR)</option>
-            </select>
-          </div>
-        </div>
-      )
     }
   ];
 
@@ -139,21 +167,23 @@ const Settings: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Navigation Sidebar (Mobile Horizontal / Desktop Vertical) */}
+        {/* Navigation Sidebar */}
         <div className="lg:col-span-1 space-y-2 overflow-x-auto flex lg:flex-col pb-4 lg:pb-0 gap-2">
           {sections.map((section, idx) => (
             <button
               key={section.title}
               className={`
-                flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left whitespace-nowrap lg:whitespace-normal
+                flex items-center justify-between gap-3 px-4 py-4 rounded-2xl transition-all text-left whitespace-nowrap lg:whitespace-normal group
                 ${idx === 0 ? 'bg-primary/10 text-primary border border-primary/20' : 'text-muted hover:text-white hover:bg-white/5'}
               `}
             >
-              <section.icon className="w-5 h-5 shrink-0" />
-              <div className="hidden sm:block">
-                <p className="text-sm font-bold">{section.title}</p>
-                <p className="text-[10px] opacity-60 line-clamp-1">{section.description}</p>
+              <div className="flex items-center gap-3">
+                <section.icon className="w-5 h-5 shrink-0" />
+                <div className="hidden sm:block">
+                  <p className="text-sm font-bold">{section.title}</p>
+                </div>
               </div>
+              <ChevronRight className="w-4 h-4 hidden lg:block opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           ))}
         </div>
