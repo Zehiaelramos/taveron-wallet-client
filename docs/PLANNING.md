@@ -25,9 +25,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **2.1 Gestión de Estado de Auth**
     - [x] Crear `AuthContext` para manejar el JWT.
     - [x] Implementar persistencia de sesión en `localStorage`.
-- [ ] **2.2 Desarrollo de Pantallas**
-    - [ ] Vista de Login con validaciones de formulario.
-    - [ ] Vista de Registro de nuevos usuarios.
+- [x] **2.2 Desarrollo de Pantallas**
+    - [x] Vista de Login con validaciones de formulario.
+    - [x] Vista de Registro de nuevos usuarios.
 - [ ] **2.3 Seguridad y Rutas**
     - [ ] Implementar interceptores de Axios para el `Bearer Token`.
     - [ ] Crear componentes de `ProtectedRoute` para el Dashboard.
@@ -74,7 +74,7 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase | Estado | Progreso |
 | :--- | :--- | :--- |
 | Fase 1 | ✅ Completado | 100% |
-| Fase 2 | 🏃 En progreso | 33% |
+| Fase 2 | 🏃 En progreso | 66% |
 | Fase 3 | ⏳ Pendiente | 0% |
 | Fase 4 | ⏳ Pendiente | 0% |
 | Fase 5 | ⏳ Pendiente | 0% |
