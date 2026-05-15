@@ -11,10 +11,10 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
     - [x] Crear proyecto con Vite (React + TypeScript).
     - [x] Instalar dependencias base (Axios, React Router, Lucide).
     - [x] Configurar variables de entorno (`.env`) para el backend.
-- [ ] **1.2 Diseño y Estilos Base**
-    - [ ] Configurar Tailwind CSS con paleta Dark Mode Fintech.
-    - [ ] Definir tipografía premium e instalar fuentes necesarias.
-    - [ ] Crear variables CSS para efectos de Glassmorphism.
+- [x] **1.2 Diseño y Estilos Base**
+    - [x] Configurar Tailwind CSS con paleta Dark Mode Fintech.
+    - [x] Definir tipografía premium e instalar fuentes necesarias.
+    - [x] Crear variables CSS para efectos de Glassmorphism.
 - [ ] **1.3 Cliente de API**
     - [ ] Configurar instancia de Axios con `baseURL`.
     - [ ] Implementar manejo básico de errores de red.
@@ -73,7 +73,7 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 ## 📈 Estado del Proyecto
 | Fase | Estado | Progreso |
 | :--- | :--- | :--- |
-| Fase 1 | 🏃 En progreso | 10% |
+| Fase 1 | 🏃 En progreso | 60% |
 | Fase 2 | ⏳ Pendiente | 0% |
 | Fase 3 | ⏳ Pendiente | 0% |
 | Fase 4 | ⏳ Pendiente | 0% |

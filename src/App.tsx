@@ -1,121 +1,67 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { Wallet, ShieldCheck, TrendingUp, ArrowRight } from 'lucide-react'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-background selection:bg-primary/30">
+      {/* Background Decorative Element */}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+
+      <main className="relative w-full max-w-xl space-y-8 text-center">
+        {/* Logo/Icon Section */}
+        <div className="flex justify-center">
+          <div className="glass p-4 rounded-2xl shadow-premium">
+            <Wallet className="w-12 h-12 text-primary" />
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+
+        {/* Hero Text */}
+        <div className="space-y-4">
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+            Taveron <span className="text-gradient">Wallet</span>
+          </h1>
+          <p className="text-lg text-muted max-w-md mx-auto">
+            La plataforma segura para gestionar tus métodos de pago con tecnología de vanguardia y diseño premium.
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        {/* Feature Grid */}
+        <div className="grid grid-cols-2 gap-4 pt-4">
+          <div className="glass-dark p-6 rounded-2xl text-left space-y-2 hover:bg-white/5 transition-colors group">
+            <ShieldCheck className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+            <h3 className="font-semibold text-white">Seguridad Total</h3>
+            <p className="text-sm text-muted">Cifrado AES-256 de extremo a extremo.</p>
+          </div>
+          <div className="glass-dark p-6 rounded-2xl text-left space-y-2 hover:bg-white/5 transition-colors group">
+            <TrendingUp className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+            <h3 className="font-semibold text-white">UX Fluida</h3>
+            <p className="text-sm text-muted">Micro-animaciones y diseño optimizado.</p>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        {/* Interactive Section */}
+        <div className="pt-8">
+          <button 
+            onClick={() => setCount(c => c + 1)}
+            className="group relative px-8 py-4 bg-primary text-background font-bold rounded-xl hover:bg-primary-hover transition-all active:scale-95 shadow-lg shadow-primary/20"
+          >
+            <span className="flex items-center gap-2">
+              Ver Demo de Componentes
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </button>
+          <p className="mt-4 text-xs text-muted/60 font-mono">
+            Interacciones registradas: {count}
+          </p>
+        </div>
+      </main>
+
+      <footer className="mt-20 text-muted/40 text-sm">
+        &copy; 2026 Taveron Wallet. Made with 💚 for Fintech.
+      </footer>
+    </div>
   )
 }
 
