@@ -8,6 +8,8 @@ interface SettingsContextType {
   setAccentColor: (color: AccentColor) => void;
   currency: Currency;
   setCurrency: (currency: Currency) => void;
+  darkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -23,6 +25,11 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return (saved as Currency) || 'MXN';
   });
 
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('taveron-dark-mode');
+    return saved === null ? true : saved === 'true';
+  });
+
   const setAccentColor = (color: AccentColor) => {
     setAccentColorState(color);
     localStorage.setItem('taveron-accent', color);
@@ -33,17 +40,36 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem('taveron-currency', curr);
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(prev => {
+      const newVal = !prev;
+      localStorage.setItem('taveron-dark-mode', String(newVal));
+      return newVal;
+    });
+  };
+
   useEffect(() => {
     const root = document.documentElement;
+    
+    // Tema de acento
     if (accentColor === 'default') {
       root.removeAttribute('data-theme');
     } else {
       root.setAttribute('data-theme', accentColor);
     }
-  }, [accentColor]);
+
+    // Modo oscuro/claro
+    if (darkMode) {
+      root.classList.remove('light');
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+      root.classList.add('light');
+    }
+  }, [accentColor, darkMode]);
 
   return (
-    <SettingsContext.Provider value={{ accentColor, setAccentColor, currency, setCurrency }}>
+    <SettingsContext.Provider value={{ accentColor, setAccentColor, currency, setCurrency, darkMode, toggleDarkMode }}>
       {children}
     </SettingsContext.Provider>
   );
