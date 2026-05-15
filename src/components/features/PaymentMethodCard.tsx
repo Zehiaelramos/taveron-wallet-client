@@ -12,8 +12,8 @@ const PaymentMethodCard: React.FC<Props> = ({ method, onDetail }) => {
   const isCard = method.type === 'card';
   
   const getCardStyle = () => {
-    if (isCard) return 'from-primary/20 via-surface to-accent-end/10';
-    return 'from-blue-500/10 via-surface to-purple-500/10';
+    if (isCard) return "from-primary/20 via-surface to-accent-end/10";
+    return "from-blue-500/10 via-surface to-purple-500/10";
   };
 
   return (
@@ -22,10 +22,7 @@ const PaymentMethodCard: React.FC<Props> = ({ method, onDetail }) => {
       whileHover={{ y: -8, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onDetail(method.id)}
-      className={`
-        h-52 w-full glass-dark p-8 rounded-3xl border border-white/5 flex flex-col justify-between overflow-hidden relative cursor-pointer group transition-all
-        hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10
-      `}
+      className="h-52 w-full glass-dark p-8 rounded-3xl border border-white/5 flex flex-col justify-between overflow-hidden relative cursor-pointer group transition-all hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10"
     >
       {/* Dynamic Background Effect */}
       <div className={`absolute top-0 right-0 w-full h-full bg-linear-to-br ${getCardStyle()} pointer-events-none -z-10`} />
