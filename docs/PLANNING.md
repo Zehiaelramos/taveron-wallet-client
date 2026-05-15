@@ -35,9 +35,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 ## 💳 Fase 3: Dashboard y Billetera (Core)
 **Objetivo:** Visualización principal de la billetera y listado de métodos.
 
-- [ ] **3.1 Layout y Navegación**
-    - [ ] Diseñar el Layout principal con Sidebar y perfil de usuario.
-    - [ ] Implementar consumo de `/users/me` para el header.
+- [x] **3.1 Layout y Navegación**
+    - [x] Diseñar el Layout principal con Sidebar y perfil de usuario.
+    - [x] Implementar consumo de `/users/me` para el header.
 - [ ] **3.2 Visualización de Tarjetas**
     - [ ] Crear componente `PaymentMethodCard` con estética física.
     - [ ] Implementar listado dinámico consumiendo `GET /payment-methods/`.
@@ -75,6 +75,6 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | :--- | :--- | :--- |
 | Fase 1 | ✅ Completado | 100% |
 | Fase 2 | ✅ Completado | 100% |
-| Fase 3 | 🏃 En progreso | 0% |
+| Fase 3 | 跑 En progreso | 33% |
 | Fase 4 | ⏳ Pendiente | 0% |
 | Fase 5 | ⏳ Pendiente | 0% |
