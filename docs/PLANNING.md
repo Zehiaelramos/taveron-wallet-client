@@ -59,9 +59,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 ## 💎 Fase 5: UX/UI Premium y Calidad
 **Objetivo:** Elevar la experiencia de usuario y asegurar la robustez.
 
-- [ ] **5.1 Animaciones y Transiciones**
-    - [ ] Integrar Framer Motion para entradas de tarjetas y cambios de vista.
-    - [ ] Implementar micro-interacciones en botones y estados hover.
+- [x] **5.1 Animaciones y Transiciones**
+    - [x] Implementar transiciones de página y entradas suaves con Framer Motion.
+    - [x] Añadir micro-interacciones en botones y estados hover.
 - [ ] **5.2 Feedback y Notificaciones**
     - [ ] Sistema de Toasts para confirmación de acciones exitosas/errores.
     - [ ] Implementar Skeletons para estados de carga.

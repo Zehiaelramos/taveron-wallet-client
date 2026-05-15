@@ -9,12 +9,14 @@ import {
   PlusCircle, 
   Menu
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useUI } from '../context/UIContext';
 import { useQueryClient } from '@tanstack/react-query';
 import Modal from '../components/ui/Modal';
 import PaymentMethodForm from '../components/features/PaymentMethodForm';
 import MethodDetails from '../components/features/MethodDetails';
+import PageTransition from '../components/ui/PageTransition';
 
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();
@@ -46,12 +48,17 @@ const MainLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-background flex text-secondary">
       {/* Mobile Backdrop */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
-          onClick={closeSidebar}
-        />
-      )}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+            onClick={closeSidebar}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Sidebar */}
       <aside className={`
@@ -125,13 +132,15 @@ const MainLayout: React.FC = () => {
           </h2>
 
           <div className="flex items-center gap-4">
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={openAddMethodModal}
               className="flex items-center gap-2 bg-primary text-background px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary-hover transition-colors shadow-lg shadow-primary/10"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Nuevo Método</span>
-            </button>
+            </motion.button>
           </div>
         </header>
 
@@ -141,7 +150,11 @@ const MainLayout: React.FC = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10" />
           
           <div className="max-w-6xl mx-auto">
-            <Outlet />
+            <AnimatePresence mode="wait">
+              <PageTransition key={location.pathname}>
+                <Outlet />
+              </PageTransition>
+            </AnimatePresence>
           </div>
         </main>
       </div>

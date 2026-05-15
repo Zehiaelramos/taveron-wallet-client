@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useUI } from '../context/UIContext';
 import apiClient from '../api/client';
@@ -55,13 +56,17 @@ const Dashboard: React.FC = () => {
 
   if (isError) {
     return (
-      <div className="glass-dark p-10 rounded-2xl border border-red-500/10 flex flex-col items-center text-center space-y-4">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="glass-dark p-10 rounded-2xl border border-red-500/10 flex flex-col items-center text-center space-y-4"
+      >
         <AlertCircle className="w-12 h-12 text-red-400" />
         <div className="space-y-1">
           <h3 className="text-xl font-bold text-white">Error al cargar datos</h3>
           <p className="text-muted text-sm">{(error as any)?.message || 'No se pudo conectar con el servidor.'}</p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -69,14 +74,34 @@ const Dashboard: React.FC = () => {
     <div className="space-y-10 pb-20">
       {/* Welcome Section */}
       <div className="space-y-2">
-        <h1 className="text-4xl font-bold text-white">Dashboard</h1>
-        <p className="text-muted text-lg">Bienvenido de nuevo, {user?.full_name.split(' ')[0]}.</p>
+        <motion.h1 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="text-4xl font-bold text-white"
+        >
+          Dashboard
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-muted text-lg"
+        >
+          Bienvenido de nuevo, {user?.full_name.split(' ')[0]}.
+        </motion.p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {stats.map((stat) => (
-          <div key={stat.label} className="glass-dark p-6 rounded-2xl border border-white/5 space-y-4">
+        {stats.map((stat, index) => (
+          <motion.div 
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            whileHover={{ y: -5 }}
+            className="glass-dark p-6 rounded-2xl border border-white/5 space-y-4 cursor-default"
+          >
             <div className="flex items-center justify-between">
               <div className="bg-white/5 p-3 rounded-xl">
                 <stat.icon className={`w-6 h-6 ${stat.color}`} />
@@ -89,7 +114,7 @@ const Dashboard: React.FC = () => {
               <p className="text-muted text-sm font-medium">{stat.label}</p>
               <h3 className="text-2xl font-bold text-white mt-1">{stat.value}</h3>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -105,14 +130,21 @@ const Dashboard: React.FC = () => {
                 key={option.id}
                 onClick={() => setFilterType(option.id as any)}
                 className={`
-                  flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all
-                  ${filterType === option.id 
-                    ? 'bg-primary text-background shadow-lg shadow-primary/20' 
-                    : 'text-muted hover:text-white hover:bg-white/5'}
+                  flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all relative
+                  ${filterType === option.id ? 'text-background' : 'text-muted hover:text-white'}
                 `}
               >
-                <option.icon className="w-4 h-4" />
-                {option.label}
+                {filterType === option.id && (
+                  <motion.div 
+                    layoutId="activeFilter"
+                    className="absolute inset-0 bg-primary rounded-lg shadow-lg shadow-primary/20"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-2">
+                  <option.icon className="w-4 h-4" />
+                  {option.label}
+                </span>
               </button>
             ))}
           </div>
@@ -123,27 +155,47 @@ const Dashboard: React.FC = () => {
             <Loader2 className="w-10 h-10 text-primary animate-spin" />
           </div>
         ) : methods.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {methods.map((method) => (
-              <PaymentMethodCard 
-                key={method.id} 
-                method={method} 
-                onDetail={openMethodDetails}
-              />
-            ))}
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+          >
+            <AnimatePresence mode="popLayout">
+              {methods.map((method) => (
+                <motion.div
+                  key={method.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <PaymentMethodCard 
+                    method={method} 
+                    onDetail={openMethodDetails}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
             
-            <button 
+            <motion.button 
+              layout
               onClick={openAddMethodModal}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className="h-52 w-full rounded-2xl border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center space-y-2 group"
             >
               <div className="p-3 rounded-full bg-white/5 group-hover:bg-primary/20 transition-colors">
                 <Plus className="w-6 h-6 text-muted group-hover:text-primary transition-colors" />
               </div>
               <span className="text-muted font-medium text-sm group-hover:text-primary">Añadir Método</span>
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         ) : (
-          <div className="glass-dark rounded-2xl p-16 border border-white/5 flex flex-col items-center justify-center text-center space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-dark rounded-2xl p-16 border border-white/5 flex flex-col items-center justify-center text-center space-y-4"
+          >
             <div className="bg-white/5 p-6 rounded-full">
               <Filter className="w-10 h-10 text-muted/40" />
             </div>
@@ -153,14 +205,16 @@ const Dashboard: React.FC = () => {
                 No tienes métodos de pago registrados. Comienza añadiendo uno.
               </p>
             </div>
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={openAddMethodModal}
               className="bg-primary text-background px-6 py-2 rounded-lg font-bold hover:bg-primary-hover transition-colors flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Añadir Primer Método
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         )}
       </div>
     </div>
