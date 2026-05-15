@@ -38,9 +38,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **3.1 Layout y Navegación**
     - [x] Diseñar el Layout principal con Sidebar y perfil de usuario.
     - [x] Implementar consumo de `/users/me` para el header.
-- [ ] **3.2 Visualización de Tarjetas**
-    - [ ] Crear componente `PaymentMethodCard` con estética física.
-    - [ ] Implementar listado dinámico consumiendo `GET /payment-methods/`.
+- [x] **3.2 Visualización de Tarjetas**
+    - [x] Crear componente `PaymentMethodCard` con estética física.
+    - [x] Implementar listado dinámico consumiendo `GET /payment-methods/`.
 - [ ] **3.3 Filtros y Paginación**
     - [ ] Agregar filtros por tipo (Tarjeta, CLABE) en la UI.
     - [ ] Implementar carga perezosa o paginación en el listado.
@@ -75,6 +75,6 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | :--- | :--- | :--- |
 | Fase 1 | ✅ Completado | 100% |
 | Fase 2 | ✅ Completado | 100% |
-| Fase 3 | 跑 En progreso | 33% |
+| Fase 3 | 🏃 En progreso | 66% |
 | Fase 4 | ⏳ Pendiente | 0% |
 | Fase 5 | ⏳ Pendiente | 0% |
