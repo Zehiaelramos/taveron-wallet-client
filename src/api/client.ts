@@ -27,7 +27,14 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Aquí podemos centralizar el manejo de errores (ej: 401 Unauthorized, 500 Server Error)
+    // Si recibimos un 401 Unauthorized, limpiamos el token y redirigimos
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      // Podríamos usar un evento o simplemente dejar que el siguiente render 
+      // de la app detecte que no hay token en el AuthContext.
+      window.location.href = '/login'; 
+    }
+
     console.error('API Error:', error.response?.data || error.message);
     
     const customError = {

@@ -28,9 +28,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **2.2 Desarrollo de Pantallas**
     - [x] Vista de Login con validaciones de formulario.
     - [x] Vista de Registro de nuevos usuarios.
-- [ ] **2.3 Seguridad y Rutas**
-    - [ ] Implementar interceptores de Axios para el `Bearer Token`.
-    - [ ] Crear componentes de `ProtectedRoute` para el Dashboard.
+- [x] **2.3 Seguridad y Rutas**
+    - [x] Implementar interceptores de Axios para el `Bearer Token`.
+    - [x] Crear componentes de `ProtectedRoute` para el Dashboard.
 
 ## 💳 Fase 3: Dashboard y Billetera (Core)
 **Objetivo:** Visualización principal de la billetera y listado de métodos.
@@ -74,7 +74,7 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase | Estado | Progreso |
 | :--- | :--- | :--- |
 | Fase 1 | ✅ Completado | 100% |
-| Fase 2 | 🏃 En progreso | 66% |
-| Fase 3 | ⏳ Pendiente | 0% |
+| Fase 2 | ✅ Completado | 100% |
+| Fase 3 | 🏃 En progreso | 0% |
 | Fase 4 | ⏳ Pendiente | 0% |
 | Fase 5 | ⏳ Pendiente | 0% |
