@@ -48,13 +48,13 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 ## 👁️ Fase 4: Operaciones y Datos Sensibles
 **Objetivo:** Permitir la creación, edición y visualización protegida de datos.
 
-- [ ] **4.1 Registro de Métodos**
-    - [ ] Crear formulario modal para añadir nuevos métodos de pago.
-    - [ ] Validar formatos de entrada (Luhn para tarjetas, 18 dígitos para CLABE).
-- [ ] **4.2 Acciones de Gestión**
-    - [ ] Botón de "Revelar" que consume el detalle descifrado del backend.
-    - [ ] Implementar cambios de estatus (Activo/Inactivo) vía `PATCH`.
-    - [ ] Flujo de eliminación con confirmación.
+- [x] **4.1 Registro de Métodos**
+    - [x] Crear formulario modal para añadir nuevos métodos de pago.
+    - [x] Validar formatos de entrada (Luhn para tarjetas, 18 dígitos para CLABE).
+- [x] **4.2 Acciones de Gestión**
+    - [x] Botón de "Revelar" que consume el detalle descifrado del backend.
+    - [x] Implementar cambios de estatus (Activo/Inactivo) vía `PATCH`.
+    - [x] Flujo de eliminación con confirmación.
 
 ## 💎 Fase 5: UX/UI Premium y Calidad
 **Objetivo:** Elevar la experiencia de usuario y asegurar la robustez.
@@ -76,5 +76,5 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase 1 | ✅ Completado | 100% |
 | Fase 2 | ✅ Completado | 100% |
 | Fase 3 | ✅ Completado | 100% |
-| Fase 4 | 🏃 En progreso | 0% |
-| Fase 5 | ⏳ Pendiente | 0% |
+| Fase 4 | ✅ Completado | 100% |
+| Fase 5 | 🏃 En progreso | 0% |
