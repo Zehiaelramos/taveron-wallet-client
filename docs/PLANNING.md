@@ -71,9 +71,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 ## 🎨 Fase 6: Personalización y Configuración
 **Objetivo:** Permitir al usuario adaptar la plataforma a sus preferencias visuales y regionales.
 
-- [ ] **6.1 Sistema de Temas y Acentos**
-    - [ ] Implementar selector de colores de acento (Taveron Green, Ocean Blue, Sunset Orange).
-    - [ ] Persistencia de preferencias en LocalStorage/API.
+- [x] **6.1 Sistema de Temas y Acentos**
+    - [x] Implementar selector de colores de acento (Taveron Green, Ocean Blue, Sunset Orange).
+    - [x] Persistencia de preferencias en LocalStorage/API.
 - [ ] **6.2 Preferencias Regionales**
     - [ ] Selector de moneda predeterminada (MXN, USD, EUR).
     - [ ] Ajuste de formatos de fecha y números.

@@ -1,19 +1,43 @@
 @import "tailwindcss";
 
+:root {
+  --primary: #00f58d;
+  --primary-hover: #00d67b;
+  --accent-end: #0087ff;
+}
+
+[data-theme='blue'] {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --accent-end: #60a5fa;
+}
+
+[data-theme='orange'] {
+  --primary: #f59e0b;
+  --primary-hover: #d97706;
+  --accent-end: #fbbf24;
+}
+
+[data-theme='purple'] {
+  --primary: #a855f7;
+  --primary-hover: #9333ea;
+  --accent-end: #c084fc;
+}
+
 @theme {
   /* Colors */
   --color-background: #050505;
   --color-surface: #121212;
   --color-surface-hover: #1e1e1e;
-  --color-primary: #00f58d;
-  --color-primary-hover: #00d67b;
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-secondary: #ffffff;
   --color-muted: #a1a1aa;
   --color-border: #27272a;
   
   /* Accent Gradients */
-  --color-accent-start: #00f58d;
-  --color-accent-end: #0087ff;
+  --color-accent-start: var(--primary);
+  --color-accent-end: var(--accent-end);
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -31,14 +55,13 @@
     font-family: var(--font-sans);
   }
 
-  h1, h2, h3, h4 {
-    font-family: var(--font-display);
-    @apply tracking-tight;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
   }
 }
 
-/* Custom Utilities for Glassmorphism */
-@layer utilities {
+/* Components & Utilities */
+@layer components {
   .glass {
     @apply bg-white/5 backdrop-blur-md border border-white/10;
   }
@@ -47,12 +70,8 @@
     @apply bg-black/40 backdrop-blur-xl border border-white/5;
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-[var(--color-accent-start)] to-[var(--color-accent-end)];
-  }
-
-  .shadow-premium {
-    box-shadow: 0 0 40px -10px rgba(0, 245, 141, 0.2);
+  .btn-primary {
+    @apply bg-primary text-background font-bold py-3 px-6 rounded-xl hover:bg-primary-hover transition-all shadow-lg shadow-primary/10;
   }
 }
 
@@ -66,5 +85,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-border rounded-full hover:bg-muted/30 transition-colors;
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
 }
