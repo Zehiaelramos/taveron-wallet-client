@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Settings from './pages/Settings';
 import { Loader2 } from 'lucide-react';
 
 /**
@@ -49,7 +50,7 @@ function App() {
         >
           <Route path="/" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<div className="text-white p-10">Configuración (Próximamente)</div>} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
         {/* Redirección por defecto */}
