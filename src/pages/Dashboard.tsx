@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../hooks/useAuth';
+import { useUI } from '../context/UIContext';
 import apiClient from '../api/client';
 import PaymentMethodCard from '../components/features/PaymentMethodCard';
 import type { PaymentMethod, PaymentMethodType } from '../utils/types';
@@ -18,6 +19,7 @@ import {
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const { openAddMethodModal } = useUI();
   const [filterType, setFilterType] = useState<PaymentMethodType | 'all'>('all');
 
   // Fetch de los métodos de pago usando React Query con soporte de filtros
@@ -25,7 +27,7 @@ const Dashboard: React.FC = () => {
     data: methods = [], 
     isLoading, 
     isError, 
-    error
+    error 
   } = useQuery<PaymentMethod[]>({
     queryKey: ['payment-methods', filterType],
     queryFn: async () => {
@@ -126,7 +128,10 @@ const Dashboard: React.FC = () => {
               <PaymentMethodCard key={method.id} method={method} />
             ))}
             
-            <button className="h-52 w-full rounded-2xl border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center space-y-2 group">
+            <button 
+              onClick={openAddMethodModal}
+              className="h-52 w-full rounded-2xl border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center space-y-2 group"
+            >
               <div className="p-3 rounded-full bg-white/5 group-hover:bg-primary/20 transition-colors">
                 <Plus className="w-6 h-6 text-muted group-hover:text-primary transition-colors" />
               </div>
@@ -141,14 +146,15 @@ const Dashboard: React.FC = () => {
             <div className="space-y-2">
               <p className="text-white font-semibold">No se encontraron resultados</p>
               <p className="text-muted text-sm max-w-xs mx-auto">
-                No tienes métodos de pago que coincidan con el filtro "{filterOptions.find(o => o.id === filterType)?.label}".
+                No tienes métodos de pago registrados. Comienza añadiendo uno.
               </p>
             </div>
             <button 
-              onClick={() => setFilterType('all')}
-              className="text-primary hover:underline font-bold text-sm"
+              onClick={openAddMethodModal}
+              className="bg-primary text-background px-6 py-2 rounded-lg font-bold hover:bg-primary-hover transition-colors flex items-center gap-2"
             >
-              Limpiar filtros
+              <Plus className="w-4 h-4" />
+              Añadir Primer Método
             </button>
           </div>
         )}

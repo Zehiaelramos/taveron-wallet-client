@@ -10,11 +10,22 @@ import {
   Menu
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useUI } from '../context/UIContext';
+import { useQueryClient } from '@tanstack/react-query';
+import Modal from '../components/ui/Modal';
+import PaymentMethodForm from '../components/features/PaymentMethodForm';
 
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();
+  const { isAddMethodModalOpen, openAddMethodModal, closeAddMethodModal } = useUI();
+  const queryClient = useQueryClient();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+
+  const handleAddSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['payment-methods'] });
+    closeAddMethodModal();
+  };
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
@@ -106,7 +117,10 @@ const MainLayout: React.FC = () => {
           </h2>
 
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 bg-primary text-background px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary-hover transition-colors shadow-lg shadow-primary/10">
+            <button 
+              onClick={openAddMethodModal}
+              className="flex items-center gap-2 bg-primary text-background px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary-hover transition-colors shadow-lg shadow-primary/10"
+            >
               <PlusCircle className="w-4 h-4" />
               <span>Nuevo Método</span>
             </button>
@@ -123,6 +137,18 @@ const MainLayout: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* Modal for adding payment methods */}
+      <Modal 
+        isOpen={isAddMethodModalOpen} 
+        onClose={closeAddMethodModal} 
+        title="Añadir Método de Pago"
+      >
+        <PaymentMethodForm 
+          onSuccess={handleAddSuccess} 
+          onCancel={closeAddMethodModal} 
+        />
+      </Modal>
     </div>
   );
 };
