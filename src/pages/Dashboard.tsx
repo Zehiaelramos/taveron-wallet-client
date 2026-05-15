@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../hooks/useAuth';
 import apiClient from '../api/client';
 import PaymentMethodCard from '../components/features/PaymentMethodCard';
-import { PaymentMethod, PaymentMethodType } from '../utils/types';
+import type { PaymentMethod, PaymentMethodType } from '../utils/types';
 import { 
   Wallet, 
   CreditCard, 
@@ -25,8 +25,7 @@ const Dashboard: React.FC = () => {
     data: methods = [], 
     isLoading, 
     isError, 
-    error,
-    isPlaceholderData
+    error
   } = useQuery<PaymentMethod[]>({
     queryKey: ['payment-methods', filterType],
     queryFn: async () => {

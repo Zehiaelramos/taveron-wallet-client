@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CreditCard, Landmark, MoreVertical, ShieldCheck, ShieldAlert } from 'lucide-react';
-import { PaymentMethod } from '../../utils/types';
+import { CreditCard, Landmark, ShieldCheck } from 'lucide-react';
+import type { PaymentMethod } from '../../utils/types';
 
 interface Props {
   method: PaymentMethod;

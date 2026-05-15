@@ -7,8 +7,7 @@ import {
   Settings, 
   LogOut, 
   PlusCircle, 
-  Menu,
-  X
+  Menu
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
