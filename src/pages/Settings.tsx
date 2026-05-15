@@ -15,7 +15,23 @@ import { useAuth } from '../hooks/useAuth';
 const Settings: React.FC = () => {
   const { accentColor, setAccentColor, currency, setCurrency } = useSettings();
   const { showToast } = useToast();
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
+  
+  const [profileName, setProfileName] = React.useState(user?.full_name || '');
+  const [isSavingProfile, setIsSavingProfile] = React.useState(false);
+
+  const handleSaveProfile = async () => {
+    if (!profileName.trim()) return;
+    setIsSavingProfile(true);
+    try {
+      await updateProfile({ full_name: profileName });
+      showToast('Perfil actualizado correctamente');
+    } catch (err: any) {
+      showToast(err.message || 'Error al actualizar perfil', 'error');
+    } finally {
+      setIsSavingProfile(false);
+    }
+  };
 
   const themes = [
     { id: 'default', name: 'Taveron Green', color: 'bg-[#00f58d]' },
@@ -139,7 +155,8 @@ const Settings: React.FC = () => {
               <label className="text-sm font-medium text-muted">Nombre Completo</label>
               <input 
                 type="text" 
-                defaultValue={user?.full_name} 
+                value={profileName} 
+                onChange={(e) => setProfileName(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-primary/50"
               />
             </div>
@@ -153,7 +170,13 @@ const Settings: React.FC = () => {
               />
             </div>
           </div>
-          <button className="btn-primary w-full sm:w-auto">Guardar Cambios</button>
+          <button 
+            onClick={handleSaveProfile}
+            disabled={isSavingProfile || profileName === user?.full_name}
+            className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2"
+          >
+            {isSavingProfile ? 'Guardando...' : 'Guardar Cambios'}
+          </button>
         </div>
       )
     }

@@ -77,8 +77,8 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **6.2 Preferencias Regionales**
     - [x] Selector de moneda predeterminada (MXN, USD, EUR).
     - [x] Ajuste de formatos de fecha y números.
-- [ ] **6.3 Gestión de Cuenta Básica**
-    - [ ] Formulario de actualización de perfil (Nombre/Apellido).
+- [x] **6.3 Gestión de Cuenta Básica**
+    - [x] Formulario de actualización de perfil (Nombre/Apellido).
 
 ---
 
@@ -90,4 +90,4 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase 3 | ✅ Completado | 100% |
 | Fase 4 | ✅ Completado | 100% |
 | Fase 5 | ✅ Completado | 100% |
-| Fase 6 | ⏳ Pendiente | 0% |
+| Fase 6 | ✅ Completado | 100% |
