@@ -79,6 +79,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
     - [x] Ajuste de formatos de fecha y números.
 - [x] **6.3 Gestión de Cuenta Básica**
     - [x] Formulario de actualización de perfil (Nombre/Apellido).
+- [x] **6.4 Refactorización y Modularización**
+    - [x] Dividir Settings.tsx en sub-componentes (Appearance, Regional, Profile).
+    - [x] Implementar navegación por pestañas funcional (Active Tab).
 
 ---
 

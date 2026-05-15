@@ -1,186 +1,45 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Palette, 
-  Check, 
-  Moon, 
   Globe, 
   User as UserIcon,
   ChevronRight
 } from 'lucide-react';
-import { useSettings, type AccentColor, type Currency } from '../context/SettingsContext';
-import { useToast } from '../context/ToastContext';
-import { useAuth } from '../hooks/useAuth';
+import AppearanceSection from '../components/features/settings/AppearanceSection';
+import RegionalSection from '../components/features/settings/RegionalSection';
+import ProfileSection from '../components/features/settings/ProfileSection';
+
+type TabId = 'appearance' | 'regional' | 'profile';
 
 const Settings: React.FC = () => {
-  const { accentColor, setAccentColor, currency, setCurrency } = useSettings();
-  const { showToast } = useToast();
-  const { user, updateProfile } = useAuth();
-  
-  const [profileName, setProfileName] = React.useState(user?.full_name || '');
-  const [isSavingProfile, setIsSavingProfile] = React.useState(false);
+  const [activeTab, setActiveTab] = useState<TabId>('appearance');
 
-  const handleSaveProfile = async () => {
-    if (!profileName.trim()) return;
-    setIsSavingProfile(true);
-    try {
-      await updateProfile({ full_name: profileName });
-      showToast('Perfil actualizado correctamente');
-    } catch (err: any) {
-      showToast(err.message || 'Error al actualizar perfil', 'error');
-    } finally {
-      setIsSavingProfile(false);
-    }
-  };
-
-  const themes = [
-    { id: 'default', name: 'Taveron Green', color: 'bg-[#00f58d]' },
-    { id: 'blue', name: 'Ocean Blue', color: 'bg-[#3b82f6]' },
-    { id: 'orange', name: 'Sunset Orange', color: 'bg-[#f59e0b]' },
-    { id: 'purple', name: 'Deep Purple', color: 'bg-[#a855f7]' },
-  ] as const;
-
-  const currencies = [
-    { id: 'MXN', name: 'Peso Mexicano', symbol: '$' },
-    { id: 'USD', name: 'Dólar Estadounidense', symbol: 'US$' },
-    { id: 'EUR', name: 'Euro', symbol: '€' },
-  ] as const;
-
-  const handleThemeChange = (id: AccentColor) => {
-    setAccentColor(id);
-    showToast(`Tema ${id === 'default' ? 'Taveron' : id} activado`);
-  };
-
-  const handleCurrencyChange = (id: Currency) => {
-    setCurrency(id);
-    showToast(`Moneda cambiada a ${id}`);
-  };
-
-  const sections = [
+  const tabs = [
     {
+      id: 'appearance',
       title: 'Personalización',
       icon: Palette,
       description: 'Ajusta la apariencia visual de tu billetera.',
-      content: (
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <label className="text-sm font-medium text-muted">Color de Acento</label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {themes.map((theme) => (
-                <button
-                  key={theme.id}
-                  onClick={() => handleThemeChange(theme.id)}
-                  className={`
-                    flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all relative group
-                    ${accentColor === theme.id 
-                      ? 'bg-primary/10 border-primary text-primary' 
-                      : 'bg-white/5 border-white/10 text-muted hover:text-white hover:bg-white/10'}
-                  `}
-                >
-                  <div className={`w-10 h-10 rounded-full ${theme.color} shadow-lg shadow-black/20 relative`}>
-                    {accentColor === theme.id && (
-                      <div className="absolute inset-0 flex items-center justify-center text-background">
-                        <Check className="w-6 h-6" />
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-xs font-bold">{theme.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Moon className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-white">Modo Oscuro</p>
-                <p className="text-xs text-muted">Optimizado para pantallas OLED</p>
-              </div>
-            </div>
-            <div className="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
-              <div className="absolute right-1 top-1 w-4 h-4 bg-background rounded-full shadow-md" />
-            </div>
-          </div>
-        </div>
-      )
+      component: AppearanceSection
     },
     {
+      id: 'regional',
       title: 'Preferencias Regionales',
       icon: Globe,
       description: 'Configura tu moneda y formatos locales.',
-      content: (
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <label className="text-sm font-medium text-muted">Moneda Predeterminada</label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {currencies.map((curr) => (
-                <button
-                  key={curr.id}
-                  onClick={() => handleCurrencyChange(curr.id)}
-                  className={`
-                    flex items-center justify-between p-4 rounded-2xl border transition-all
-                    ${currency === curr.id 
-                      ? 'bg-primary/10 border-primary text-primary' 
-                      : 'bg-white/5 border-white/10 text-muted hover:text-white hover:bg-white/10'}
-                  `}
-                >
-                  <div className="flex flex-col items-start">
-                    <span className="text-xs font-bold uppercase">{curr.id}</span>
-                    <span className="text-[10px] opacity-60">{curr.name}</span>
-                  </div>
-                  <span className="text-lg font-bold">{curr.symbol}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10">
-            <p className="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Nota</p>
-            <p className="text-xs text-muted">Los valores en el Dashboard se mostrarán en la moneda seleccionada utilizando el símbolo correspondiente.</p>
-          </div>
-        </div>
-      )
+      component: RegionalSection
     },
     {
+      id: 'profile',
       title: 'Perfil y Cuenta',
       icon: UserIcon,
       description: 'Información básica de tu identidad en Taveron.',
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-muted">Nombre Completo</label>
-              <input 
-                type="text" 
-                value={profileName} 
-                onChange={(e) => setProfileName(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-primary/50"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-muted">Correo Electrónico</label>
-              <input 
-                type="email" 
-                disabled 
-                value={user?.email} 
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-muted cursor-not-allowed"
-              />
-            </div>
-          </div>
-          <button 
-            onClick={handleSaveProfile}
-            disabled={isSavingProfile || profileName === user?.full_name}
-            className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2"
-          >
-            {isSavingProfile ? 'Guardando...' : 'Guardar Cambios'}
-          </button>
-        </div>
-      )
+      component: ProfileSection
     }
-  ];
+  ] as const;
+
+  const activeTabData = tabs.find(t => t.id === activeTab)!;
 
   return (
     <div className="space-y-10 pb-20">
@@ -192,49 +51,57 @@ const Settings: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* Navigation Sidebar */}
         <div className="lg:col-span-1 space-y-2 overflow-x-auto flex lg:flex-col pb-4 lg:pb-0 gap-2">
-          {sections.map((section, idx) => (
+          {tabs.map((tab) => (
             <button
-              key={section.title}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as TabId)}
               className={`
-                flex items-center justify-between gap-3 px-4 py-4 rounded-2xl transition-all text-left whitespace-nowrap lg:whitespace-normal group
-                ${idx === 0 ? 'bg-primary/10 text-primary border border-primary/20' : 'text-muted hover:text-white hover:bg-white/5'}
+                flex items-center justify-between gap-3 px-5 py-4 rounded-2xl transition-all text-left whitespace-nowrap lg:whitespace-normal group border
+                ${activeTab === tab.id 
+                  ? 'bg-primary/10 text-primary border-primary/20 shadow-lg shadow-primary/5' 
+                  : 'text-muted border-transparent hover:text-white hover:bg-white/5'}
               `}
             >
-              <div className="flex items-center gap-3">
-                <section.icon className="w-5 h-5 shrink-0" />
-                <div className="hidden sm:block">
-                  <p className="text-sm font-bold">{section.title}</p>
+              <div className="flex items-center gap-4">
+                <div className={`p-2 rounded-lg transition-colors ${activeTab === tab.id ? 'bg-primary/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                  <tab.icon className="w-5 h-5 shrink-0" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold">{tab.title}</p>
+                  <p className="text-[10px] opacity-60 hidden lg:block line-clamp-1">{tab.description}</p>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 hidden lg:block opacity-0 group-hover:opacity-100 transition-opacity" />
+              <ChevronRight className={`w-4 h-4 hidden lg:block transition-all ${activeTab === tab.id ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} />
             </button>
           ))}
         </div>
 
         {/* Content Area */}
-        <div className="lg:col-span-2 space-y-8">
-          {sections.map((section, idx) => (
+        <div className="lg:col-span-2">
+          <AnimatePresence mode="wait">
             <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="glass-dark p-8 rounded-3xl border border-white/5 space-y-6"
+              key={activeTab}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.2 }}
+              className="glass-dark p-8 rounded-3xl border border-white/5 space-y-8"
             >
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-2xl bg-white/5">
-                  <section.icon className="w-6 h-6 text-primary" />
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20">
+                  <activeTabData.icon className="w-7 h-7 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">{section.title}</h3>
-                  <p className="text-sm text-muted">{section.description}</p>
+                  <h3 className="text-2xl font-bold text-white">{activeTabData.title}</h3>
+                  <p className="text-sm text-muted">{activeTabData.description}</p>
                 </div>
               </div>
-              <div className="pt-4 border-t border-white/5">
-                {section.content}
+              
+              <div className="pt-6 border-t border-white/5">
+                <activeTabData.component />
               </div>
             </motion.div>
-          ))}
+          </AnimatePresence>
         </div>
       </div>
     </div>
