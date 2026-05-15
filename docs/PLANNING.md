@@ -62,9 +62,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **5.1 Animaciones y Transiciones**
     - [x] Implementar transiciones de página y entradas suaves con Framer Motion.
     - [x] Añadir micro-interacciones en botones y estados hover.
-- [ ] **5.2 Feedback y Notificaciones**
-    - [ ] Sistema de Toasts para confirmación de acciones exitosas/errores.
-    - [ ] Implementar Skeletons para estados de carga.
+- [x] **5.2 Feedback y Notificaciones**
+    - [x] Sistema de Toasts para confirmación de acciones exitosas/errores.
+    - [x] Implementar Skeletons para estados de carga.
 - [ ] **5.3 Responsividad**
     - [ ] Optimizar todas las vistas para dispositivos móviles.
 

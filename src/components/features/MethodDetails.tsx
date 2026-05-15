@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import apiClient from '../../api/client';
 import type { PaymentMethod } from '../../utils/types';
+import { useToast } from '../../context/ToastContext';
 
 interface Props {
   id: number;
@@ -21,17 +22,17 @@ interface Props {
 
 const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
   const [isRevealed, setIsRevealed] = useState(false);
   const [revealedValue, setRevealedValue] = useState<string | null>(null);
   const [isRevealing, setIsRevealing] = useState(false);
   const [isActionLoading, setIsActionLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Fetch de los datos base (pueden estar en caché)
+  // Fetch de los datos base
   const { data: method, isLoading, isError } = useQuery<PaymentMethod>({
     queryKey: ['payment-method', id],
     queryFn: async () => {
-      // Intentamos buscarlo en el listado primero
       const cached = queryClient.getQueryData<PaymentMethod[]>(['payment-methods']);
       const found = cached?.find(m => m.id === id);
       if (found) return found;
@@ -41,7 +42,7 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
     }
   });
 
-  // Función para revelar el dato real (Descifrado en backend)
+  // Función para revelar el dato real
   const handleReveal = async () => {
     if (isRevealed) {
       setIsRevealed(false);
@@ -51,16 +52,17 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
     setIsRevealing(true);
     try {
       const response = await apiClient.get(`/payment-methods/${id}`);
-      setRevealedValue(response.data.identifier); // El backend devuelve el dato real aquí
+      setRevealedValue(response.data.identifier);
       setIsRevealed(true);
-    } catch (err) {
-      console.error('Error revealing data:', err);
+      showToast('Datos descifrados correctamente', 'info');
+    } catch (err: any) {
+      showToast(err.message || 'Error al revelar datos', 'error');
     } finally {
       setIsRevealing(false);
     }
   };
 
-  // Función para cambiar estatus (Activo/Inactivo)
+  // Función para cambiar estatus
   const handleToggleStatus = async () => {
     if (!method) return;
     setIsActionLoading(true);
@@ -69,8 +71,9 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
       await apiClient.patch(`/payment-methods/${id}/status?status=${newStatus}`);
       queryClient.invalidateQueries({ queryKey: ['payment-methods'] });
       queryClient.invalidateQueries({ queryKey: ['payment-method', id] });
-    } catch (err) {
-      console.error('Error toggling status:', err);
+      showToast(`Método ${newStatus === 'active' ? 'activado' : 'desactivado'} correctamente`);
+    } catch (err: any) {
+      showToast(err.message || 'Error al cambiar estatus', 'error');
     } finally {
       setIsActionLoading(false);
     }
@@ -78,14 +81,15 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
 
   // Función para eliminar
   const handleDelete = async () => {
-    if (!window.confirm('¿Estás seguro de que deseas eliminar este método de pago? Esta acción no se puede deshacer.')) return;
+    if (!window.confirm('¿Estás seguro de que deseas eliminar este método de pago?')) return;
     setIsActionLoading(true);
     try {
       await apiClient.delete(`/payment-methods/${id}`);
       queryClient.invalidateQueries({ queryKey: ['payment-methods'] });
+      showToast('Método de pago eliminado');
       onClose();
-    } catch (err) {
-      console.error('Error deleting method:', err);
+    } catch (err: any) {
+      showToast(err.message || 'Error al eliminar método', 'error');
     } finally {
       setIsActionLoading(false);
     }
@@ -95,6 +99,7 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
     if (revealedValue) {
       navigator.clipboard.writeText(revealedValue);
       setCopied(true);
+      showToast('Copiado al portapapeles');
       setTimeout(() => setCopied(false), 2000);
     }
   };

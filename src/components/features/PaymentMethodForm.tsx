@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CreditCard, Landmark, ShieldCheck, Loader2, Info } from 'lucide-react';
 import type { PaymentMethodType } from '../../utils/types';
 import apiClient from '../../api/client';
+import { useToast } from '../../context/ToastContext';
 
 interface Props {
   onSuccess: () => void;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const PaymentMethodForm: React.FC<Props> = ({ onSuccess, onCancel }) => {
+  const { showToast } = useToast();
   const [type, setType] = useState<PaymentMethodType>('card');
   const [alias, setAlias] = useState('');
   const [institution, setInstitution] = useState('');
@@ -39,13 +41,17 @@ const PaymentMethodForm: React.FC<Props> = ({ onSuccess, onCancel }) => {
 
     // Validaciones locales
     if (type === 'card' && !validateLuhn(identifier)) {
-      setError('El número de tarjeta no es válido (Fallo de validación Luhn).');
+      const msg = 'El número de tarjeta no es válido (Fallo de validación Luhn).';
+      setError(msg);
+      showToast(msg, 'error');
       setIsSubmitting(false);
       return;
     }
 
     if (type === 'clabe' && identifier.length !== 18) {
-      setError('La CLABE debe tener exactamente 18 dígitos.');
+      const msg = 'La CLABE debe tener exactamente 18 dígitos.';
+      setError(msg);
+      showToast(msg, 'error');
       setIsSubmitting(false);
       return;
     }
@@ -56,11 +62,14 @@ const PaymentMethodForm: React.FC<Props> = ({ onSuccess, onCancel }) => {
         alias,
         institution,
         identifier,
-        currency: 'MXN', // Por defecto para esta versión
+        currency: 'MXN',
       });
+      showToast('Método de pago guardado exitosamente');
       onSuccess();
     } catch (err: any) {
-      setError(err.message || 'Error al guardar el método de pago.');
+      const msg = err.message || 'Error al guardar el método de pago.';
+      setError(msg);
+      showToast(msg, 'error');
     } finally {
       setIsSubmitting(false);
     }

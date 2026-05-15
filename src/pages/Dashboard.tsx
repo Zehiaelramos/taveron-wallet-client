@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useUI } from '../context/UIContext';
 import apiClient from '../api/client';
 import PaymentMethodCard from '../components/features/PaymentMethodCard';
+import { CardSkeleton } from '../components/ui/Skeleton';
 import type { PaymentMethod, PaymentMethodType } from '../utils/types';
 import { 
   Wallet, 
@@ -12,7 +13,6 @@ import {
   Landmark, 
   ArrowUpRight, 
   Plus, 
-  Loader2,
   AlertCircle,
   Filter,
   Layers
@@ -151,8 +151,8 @@ const Dashboard: React.FC = () => {
         </div>
         
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-20 space-y-4">
-            <Loader2 className="w-10 h-10 text-primary animate-spin" />
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {[1, 2, 3].map(i => <CardSkeleton key={i} />)}
           </div>
         ) : methods.length > 0 ? (
           <motion.div 
