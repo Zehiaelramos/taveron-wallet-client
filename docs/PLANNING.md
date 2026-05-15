@@ -15,9 +15,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
     - [x] Configurar Tailwind CSS con paleta Dark Mode Fintech.
     - [x] Definir tipografía premium e instalar fuentes necesarias.
     - [x] Crear variables CSS para efectos de Glassmorphism.
-- [ ] **1.3 Cliente de API**
-    - [ ] Configurar instancia de Axios con `baseURL`.
-    - [ ] Implementar manejo básico de errores de red.
+- [x] **1.3 Cliente de API**
+    - [x] Configurar instancia de Axios con `baseURL`.
+    - [x] Implementar manejo básico de errores de red.
 
 ## 🔐 Fase 2: Autenticación y Usuarios
 **Objetivo:** Permitir el acceso seguro y la gestión de sesión del usuario.
@@ -73,8 +73,8 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 ## 📈 Estado del Proyecto
 | Fase | Estado | Progreso |
 | :--- | :--- | :--- |
-| Fase 1 | 🏃 En progreso | 60% |
-| Fase 2 | ⏳ Pendiente | 0% |
+| Fase 1 | ✅ Completado | 100% |
+| Fase 2 | 🏃 En progreso | 0% |
 | Fase 3 | ⏳ Pendiente | 0% |
 | Fase 4 | ⏳ Pendiente | 0% |
 | Fase 5 | ⏳ Pendiente | 0% |
