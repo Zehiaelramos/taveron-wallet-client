@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../hooks/useAuth';
 import apiClient from '../api/client';
 import PaymentMethodCard from '../components/features/PaymentMethodCard';
-import { PaymentMethod } from '../utils/types';
+import { PaymentMethod, PaymentMethodType } from '../utils/types';
 import { 
   Wallet, 
   CreditCard, 
@@ -11,41 +11,46 @@ import {
   ArrowUpRight, 
   Plus, 
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Filter,
+  Layers
 } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const [filterType, setFilterType] = useState<PaymentMethodType | 'all'>('all');
 
-  // Fetch de los métodos de pago usando React Query
+  // Fetch de los métodos de pago usando React Query con soporte de filtros
   const { 
     data: methods = [], 
     isLoading, 
     isError, 
-    error 
+    error,
+    isPlaceholderData
   } = useQuery<PaymentMethod[]>({
-    queryKey: ['payment-methods'],
+    queryKey: ['payment-methods', filterType],
     queryFn: async () => {
-      const response = await apiClient.get('/payment-methods/');
+      const params = new URLSearchParams();
+      if (filterType !== 'all') {
+        params.append('type', filterType);
+      }
+      const response = await apiClient.get('/payment-methods/', { params });
       return response.data;
     }
   });
 
-  // Métricas calculadas (simuladas o basadas en datos reales si existieran montos)
   const stats = [
     { label: 'Total en Billetera', value: '$12,450.00', icon: Wallet, color: 'text-primary' },
     { label: 'Métodos Activos', value: methods.length.toString(), icon: CreditCard, color: 'text-blue-400' },
     { label: 'Cuentas Bancarias', value: methods.filter(m => m.type === 'bank' || m.type === 'clabe').length.toString(), icon: Landmark, color: 'text-purple-400' },
   ];
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 space-y-4">
-        <Loader2 className="w-10 h-10 text-primary animate-spin" />
-        <p className="text-muted font-medium">Cargando tus métodos de pago...</p>
-      </div>
-    );
-  }
+  const filterOptions = [
+    { id: 'all', label: 'Todos', icon: Layers },
+    { id: 'card', label: 'Tarjetas', icon: CreditCard },
+    { id: 'clabe', label: 'CLABE', icon: Landmark },
+    { id: 'bank', label: 'Cuentas', icon: Landmark },
+  ];
 
   if (isError) {
     return (
@@ -64,7 +69,7 @@ const Dashboard: React.FC = () => {
       {/* Welcome Section */}
       <div className="space-y-2">
         <h1 className="text-4xl font-bold text-white">Dashboard</h1>
-        <p className="text-muted text-lg">Bienvenido de nuevo, {user?.full_name.split(' ')[0]}. Gestiona tus métodos de pago con seguridad.</p>
+        <p className="text-muted text-lg">Bienvenido de nuevo, {user?.full_name.split(' ')[0]}.</p>
       </div>
 
       {/* Stats Grid */}
@@ -89,20 +94,39 @@ const Dashboard: React.FC = () => {
 
       {/* Payment Methods Section */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h2 className="text-2xl font-bold text-white">Mis Métodos de Pago</h2>
-          <button className="text-primary hover:underline text-sm font-semibold flex items-center gap-1">
-            Ver todos
-          </button>
+          
+          {/* Filter Bar */}
+          <div className="flex items-center gap-2 p-1 bg-white/5 rounded-xl border border-white/10 self-start">
+            {filterOptions.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setFilterType(option.id as any)}
+                className={`
+                  flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all
+                  ${filterType === option.id 
+                    ? 'bg-primary text-background shadow-lg shadow-primary/20' 
+                    : 'text-muted hover:text-white hover:bg-white/5'}
+                `}
+              >
+                <option.icon className="w-4 h-4" />
+                {option.label}
+              </button>
+            ))}
+          </div>
         </div>
         
-        {methods.length > 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <Loader2 className="w-10 h-10 text-primary animate-spin" />
+          </div>
+        ) : methods.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {methods.map((method) => (
               <PaymentMethodCard key={method.id} method={method} />
             ))}
             
-            {/* Add New Card Placeholder */}
             <button className="h-52 w-full rounded-2xl border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center space-y-2 group">
               <div className="p-3 rounded-full bg-white/5 group-hover:bg-primary/20 transition-colors">
                 <Plus className="w-6 h-6 text-muted group-hover:text-primary transition-colors" />
@@ -113,17 +137,19 @@ const Dashboard: React.FC = () => {
         ) : (
           <div className="glass-dark rounded-2xl p-16 border border-white/5 flex flex-col items-center justify-center text-center space-y-4">
             <div className="bg-white/5 p-6 rounded-full">
-              <CreditCard className="w-10 h-10 text-muted/40" />
+              <Filter className="w-10 h-10 text-muted/40" />
             </div>
             <div className="space-y-2">
-              <p className="text-white font-semibold">No hay métodos registrados</p>
-              <p className="text-muted text-sm max-w-xs">
-                Comienza añadiendo una tarjeta o cuenta bancaria para visualizar tu billetera.
+              <p className="text-white font-semibold">No se encontraron resultados</p>
+              <p className="text-muted text-sm max-w-xs mx-auto">
+                No tienes métodos de pago que coincidan con el filtro "{filterOptions.find(o => o.id === filterType)?.label}".
               </p>
             </div>
-            <button className="bg-primary text-background px-6 py-2 rounded-lg font-bold hover:bg-primary-hover transition-colors flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              Añadir Primer Método
+            <button 
+              onClick={() => setFilterType('all')}
+              className="text-primary hover:underline font-bold text-sm"
+            >
+              Limpiar filtros
             </button>
           </div>
         )}

@@ -41,9 +41,9 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **3.2 Visualización de Tarjetas**
     - [x] Crear componente `PaymentMethodCard` con estética física.
     - [x] Implementar listado dinámico consumiendo `GET /payment-methods/`.
-- [ ] **3.3 Filtros y Paginación**
-    - [ ] Agregar filtros por tipo (Tarjeta, CLABE) en la UI.
-    - [ ] Implementar carga perezosa o paginación en el listado.
+- [x] **3.3 Filtros y Paginación**
+    - [x] Agregar filtros por tipo (Tarjeta, CLABE) en la UI.
+    - [x] Implementar carga perezosa o paginación en el listado.
 
 ## 👁️ Fase 4: Operaciones y Datos Sensibles
 **Objetivo:** Permitir la creación, edición y visualización protegida de datos.
@@ -75,6 +75,6 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | :--- | :--- | :--- |
 | Fase 1 | ✅ Completado | 100% |
 | Fase 2 | ✅ Completado | 100% |
-| Fase 3 | 🏃 En progreso | 66% |
-| Fase 4 | ⏳ Pendiente | 0% |
+| Fase 3 | ✅ Completado | 100% |
+| Fase 4 | 🏃 En progreso | 0% |
 | Fase 5 | ⏳ Pendiente | 0% |
