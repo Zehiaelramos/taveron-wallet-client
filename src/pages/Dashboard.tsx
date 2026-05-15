@@ -19,7 +19,7 @@ import {
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const { openAddMethodModal } = useUI();
+  const { openAddMethodModal, openMethodDetails } = useUI();
   const [filterType, setFilterType] = useState<PaymentMethodType | 'all'>('all');
 
   // Fetch de los métodos de pago usando React Query con soporte de filtros
@@ -125,7 +125,11 @@ const Dashboard: React.FC = () => {
         ) : methods.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {methods.map((method) => (
-              <PaymentMethodCard key={method.id} method={method} />
+              <PaymentMethodCard 
+                key={method.id} 
+                method={method} 
+                onDetail={openMethodDetails}
+              />
             ))}
             
             <button 

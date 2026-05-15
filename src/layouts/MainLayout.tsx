@@ -14,10 +14,18 @@ import { useUI } from '../context/UIContext';
 import { useQueryClient } from '@tanstack/react-query';
 import Modal from '../components/ui/Modal';
 import PaymentMethodForm from '../components/features/PaymentMethodForm';
+import MethodDetails from '../components/features/MethodDetails';
 
 const MainLayout: React.FC = () => {
   const { user, logout } = useAuth();
-  const { isAddMethodModalOpen, openAddMethodModal, closeAddMethodModal } = useUI();
+  const { 
+    isAddMethodModalOpen, 
+    openAddMethodModal, 
+    closeAddMethodModal,
+    selectedMethodId,
+    closeMethodDetails
+  } = useUI();
+  
   const queryClient = useQueryClient();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
@@ -148,6 +156,20 @@ const MainLayout: React.FC = () => {
           onSuccess={handleAddSuccess} 
           onCancel={closeAddMethodModal} 
         />
+      </Modal>
+
+      {/* Modal for viewing/managing method details */}
+      <Modal
+        isOpen={!!selectedMethodId}
+        onClose={closeMethodDetails}
+        title="Detalle del Método"
+      >
+        {selectedMethodId && (
+          <MethodDetails 
+            id={selectedMethodId} 
+            onClose={closeMethodDetails} 
+          />
+        )}
       </Modal>
     </div>
   );
