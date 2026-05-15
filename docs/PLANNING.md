@@ -65,8 +65,8 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **5.2 Feedback y Notificaciones**
     - [x] Sistema de Toasts para confirmación de acciones exitosas/errores.
     - [x] Implementar Skeletons para estados de carga.
-- [ ] **5.3 Responsividad**
-    - [ ] Optimizar todas las vistas para dispositivos móviles.
+- [x] **5.3 Responsividad**
+    - [x] Optimizar todas las vistas para dispositivos móviles.
 
 ---
 
@@ -77,4 +77,4 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase 2 | ✅ Completado | 100% |
 | Fase 3 | ✅ Completado | 100% |
 | Fase 4 | ✅ Completado | 100% |
-| Fase 5 | 🏃 En progreso | 0% |
+| Fase 5 | ✅ Completado | 100% |

@@ -5,58 +5,64 @@ import type { PaymentMethod } from '../../utils/types';
 
 interface Props {
   method: PaymentMethod;
-  onDetail?: (id: number) => void;
+  onDetail: (id: number) => void;
 }
 
 const PaymentMethodCard: React.FC<Props> = ({ method, onDetail }) => {
   const isCard = method.type === 'card';
   
-  // Colores dinámicos basados en la institución o tipo
-  const getCardGradient = () => {
-    if (method.type === 'clabe') return 'from-blue-600 to-indigo-900';
-    if (method.type === 'bank') return 'from-purple-600 to-purple-900';
-    return 'from-emerald-600 to-teal-900';
+  const getCardStyle = () => {
+    if (isCard) return 'from-primary/20 via-surface to-accent-end/10';
+    return 'from-blue-500/10 via-surface to-purple-500/10';
   };
 
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className={`relative h-52 w-full rounded-2xl p-6 text-white shadow-2xl overflow-hidden bg-linear-to-br ${getCardGradient()} group cursor-pointer`}
-      onClick={() => onDetail?.(method.id)}
+      layout
+      whileHover={{ y: -8, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onDetail(method.id)}
+      className={`
+        h-52 w-full glass-dark p-8 rounded-3xl border border-white/5 flex flex-col justify-between overflow-hidden relative cursor-pointer group transition-all
+        hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10
+      `}
     >
-      {/* Background patterns */}
-      <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-colors" />
+      {/* Dynamic Background Effect */}
+      <div className={`absolute top-0 right-0 w-full h-full bg-linear-to-br ${getCardStyle()} pointer-events-none -z-10`} />
       
-      <div className="relative h-full flex flex-col justify-between">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <p className="text-xs font-bold uppercase tracking-wider opacity-70">{method.institution}</p>
-            <h3 className="text-lg font-bold truncate max-w-[200px]">{method.alias}</h3>
+      <div className="flex justify-between items-start relative z-10">
+        <div className="bg-white/5 p-3 rounded-2xl group-hover:bg-primary/20 transition-colors">
+          {isCard ? <CreditCard className="w-6 h-6 text-primary" /> : <Landmark className="w-6 h-6 text-blue-400" />}
+        </div>
+        <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 group-hover:opacity-100 transition-opacity">
+          {method.institution}
+        </span>
+      </div>
+
+      <div className="space-y-4 relative z-10">
+        <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors truncate">
+          {method.alias}
+        </h3>
+        
+        <div className="flex items-center justify-between gap-4">
+          <div className="font-mono text-lg sm:text-xl tracking-[0.2em] text-white flex-1 overflow-hidden truncate">
+            {method.identifier_masked}
           </div>
-          <div className="glass p-2 rounded-lg">
-            {isCard ? <CreditCard className="w-6 h-6" /> : <Landmark className="w-6 h-6" />}
+          <div className="bg-white/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
+            <ShieldCheck className="w-4 h-4 text-primary" />
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="font-mono text-xl tracking-[0.2em]">
-            {method.identifier_masked}
+        <div className="flex justify-between items-center pt-2">
+          <div className="flex items-center gap-2">
+            <div className={`w-1.5 h-1.5 rounded-full ${method.status === 'active' ? 'bg-primary' : 'bg-red-500'}`} />
+            <span className="text-[9px] font-bold uppercase tracking-widest opacity-60">
+              {method.status === 'active' ? 'Activa' : 'Inactiva'}
+            </span>
           </div>
-
-          <div className="flex justify-between items-end">
-            <div className="flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${method.status === 'active' ? 'bg-primary' : 'bg-red-400'}`} />
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">
-                {method.status === 'active' ? 'Activa' : 'Inactiva'}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-[10px] font-bold opacity-80 uppercase tracking-widest">
-              {method.currency}
-              <ShieldCheck className="w-4 h-4 text-white/50" />
-            </div>
-          </div>
+          <span className="text-[9px] font-bold opacity-40 uppercase tracking-widest">
+            {method.currency}
+          </span>
         </div>
       </div>
     </motion.div>

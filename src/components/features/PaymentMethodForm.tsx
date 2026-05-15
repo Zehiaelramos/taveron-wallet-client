@@ -85,7 +85,7 @@ const PaymentMethodForm: React.FC<Props> = ({ onSuccess, onCancel }) => {
       )}
 
       {/* Selector de Tipo */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { id: 'card', label: 'Tarjeta', icon: CreditCard },
           { id: 'clabe', label: 'CLABE', icon: Landmark },
@@ -96,7 +96,7 @@ const PaymentMethodForm: React.FC<Props> = ({ onSuccess, onCancel }) => {
             type="button"
             onClick={() => setType(opt.id as any)}
             className={`
-              flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all
+              flex flex-col items-center gap-2 p-3 sm:p-4 rounded-2xl border transition-all
               ${type === opt.id 
                 ? 'bg-primary/10 border-primary text-primary' 
                 : 'bg-white/5 border-white/10 text-muted hover:text-white hover:bg-white/10'}
