@@ -68,6 +68,18 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **5.3 Responsividad**
     - [x] Optimizar todas las vistas para dispositivos móviles.
 
+## 🎨 Fase 6: Personalización y Configuración
+**Objetivo:** Permitir al usuario adaptar la plataforma a sus preferencias visuales y regionales.
+
+- [ ] **6.1 Sistema de Temas y Acentos**
+    - [ ] Implementar selector de colores de acento (Taveron Green, Ocean Blue, Sunset Orange).
+    - [ ] Persistencia de preferencias en LocalStorage/API.
+- [ ] **6.2 Preferencias Regionales**
+    - [ ] Selector de moneda predeterminada (MXN, USD, EUR).
+    - [ ] Ajuste de formatos de fecha y números.
+- [ ] **6.3 Gestión de Cuenta Básica**
+    - [ ] Formulario de actualización de perfil (Nombre/Apellido).
+
 ---
 
 ## 📈 Estado del Proyecto
@@ -78,3 +90,4 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase 3 | ✅ Completado | 100% |
 | Fase 4 | ✅ Completado | 100% |
 | Fase 5 | ✅ Completado | 100% |
+| Fase 6 | ⏳ Pendiente | 0% |
