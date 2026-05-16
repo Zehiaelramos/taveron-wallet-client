@@ -62,7 +62,7 @@ const MainLayout: React.FC = () => {
 
       {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-border transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0
+        fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-border transform transition-transform duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="h-full flex flex-col p-6">
@@ -76,26 +76,37 @@ const MainLayout: React.FC = () => {
 
           {/* Navigation */}
           <nav className="flex-1 space-y-2">
-            {menuItems.map((item) => (
-              <Link
+            {menuItems.map((item, index) => (
+              <motion.div
                 key={item.path}
-                to={item.path}
-                onClick={closeSidebar}
-                className={`
-                  flex items-center gap-3 px-4 py-3 rounded-xl transition-all group
-                  ${location.pathname === item.path 
-                    ? 'bg-primary/10 text-primary border border-primary/20' 
-                    : 'text-muted hover:bg-white/5 hover:text-white'}
-                `}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + index * 0.05 }}
               >
-                <item.icon className={`w-5 h-5 ${location.pathname === item.path ? 'text-primary' : 'group-hover:scale-110 transition-transform'}`} />
-                <span className="font-medium">{item.label}</span>
-              </Link>
+                <Link
+                  to={item.path}
+                  onClick={closeSidebar}
+                  className={`
+                    flex items-center gap-3 px-4 py-3 rounded-xl transition-all group
+                    ${location.pathname === item.path 
+                      ? 'bg-primary/10 text-primary border border-primary/20' 
+                      : 'text-muted hover:bg-white/5 hover:text-white'}
+                  `}
+                >
+                  <item.icon className={`w-5 h-5 ${location.pathname === item.path ? 'text-primary' : 'group-hover:scale-110 transition-transform'}`} />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              </motion.div>
             ))}
           </nav>
 
           {/* User Section (Bottom) */}
-          <div className="pt-6 border-t border-border space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="pt-6 border-t border-border space-y-4"
+          >
             <div className="flex items-center gap-3 px-2">
               <div className="w-10 h-10 rounded-full bg-linear-to-br from-primary/20 to-accent-end/20 border border-white/10 flex items-center justify-center text-primary font-bold">
                 {user?.full_name?.charAt(0) || 'U'}
@@ -112,7 +123,7 @@ const MainLayout: React.FC = () => {
               <LogOut className="w-5 h-5" />
               <span className="font-medium">Cerrar Sesión</span>
             </button>
-          </div>
+          </motion.div>
         </div>
       </aside>
 

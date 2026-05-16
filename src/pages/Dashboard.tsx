@@ -199,26 +199,35 @@ const Dashboard: React.FC = () => {
           </motion.div>
         ) : (
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-dark rounded-2xl p-16 border border-white/5 flex flex-col items-center justify-center text-center space-y-4"
+            className="relative overflow-hidden glass-dark rounded-[2.5rem] p-12 md:p-20 border border-white/5 flex flex-col items-center justify-center text-center space-y-8"
           >
-            <div className="bg-white/5 p-6 rounded-full">
-              <Filter className="w-10 h-10 text-muted/40" />
+            {/* Decorative background circle */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
+
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
+              <div className="relative bg-linear-to-b from-white/10 to-transparent p-8 rounded-3xl border border-white/10 shadow-2xl">
+                <Wallet className="w-16 h-16 text-primary" />
+              </div>
             </div>
-            <div className="space-y-2">
-              <p className="text-white font-semibold">No se encontraron resultados</p>
-              <p className="text-muted text-sm max-w-xs mx-auto">
-                No tienes métodos de pago registrados. Comienza añadiendo uno.
+
+            <div className="space-y-3 max-w-sm relative z-10">
+              <h3 className="text-2xl font-bold text-white tracking-tight">Tu billetera está vacía</h3>
+              <p className="text-muted text-base leading-relaxed">
+                Parece que aún no has registrado ningún método de pago. Añade tu primera tarjeta o cuenta para comenzar a gestionar tus finanzas con seguridad.
               </p>
             </div>
+
             <motion.button 
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(var(--primary-rgb), 0.3)' }}
               whileTap={{ scale: 0.95 }}
               onClick={openAddMethodModal}
-              className="bg-primary text-background px-6 py-2 rounded-lg font-bold hover:bg-primary-hover transition-colors flex items-center gap-2"
+              className="relative z-10 bg-primary text-background px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-primary-hover transition-all flex items-center gap-3 group"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
               Añadir Primer Método
             </motion.button>
           </motion.div>

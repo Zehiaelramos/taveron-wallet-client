@@ -7,7 +7,7 @@ const AuthLayout: React.FC = () => {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 selection:bg-primary/30 relative overflow-hidden">
       {/* Decorative Background Blur */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-      
+
       <div className="w-full max-w-md relative">
         <div className="flex flex-col items-center mb-8 space-y-4">
           <div className="glass p-3 rounded-xl shadow-premium">
@@ -23,7 +23,7 @@ const AuthLayout: React.FC = () => {
         </div>
 
         <p className="text-center mt-8 text-muted/40 text-sm">
-          &copy; 2026 Taveron Wallet. Seguridad por diseño.
+          &copy; 2026 Taveron Wallet.
         </p>
       </div>
     </div>
