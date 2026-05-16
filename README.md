@@ -1,67 +1,47 @@
-# Taveron Wallet - Frontend 💳📱
+# Taveron Wallet Client 💳📱
 
-Bienvenido al repositorio del cliente de **Taveron Wallet**, una aplicación web moderna y segura diseñada para la gestión de métodos de pago con una experiencia de usuario premium tipo Fintech.
+Bienvenido al ecosistema de **Taveron Wallet**, una plataforma Fintech de vanguardia diseñada para la gestión segura y elegante de métodos de pago. Este repositorio contiene el código fuente del cliente (Frontend), construido con un enfoque en seguridad, rendimiento y una experiencia de usuario premium.
 
-## ✨ Características Principales
+---
 
-- **🛡️ Autenticación Segura:** Sistema de Login y Registro basado en JWT.
-- **💳 Gestión de Billetera:** CRUD completo de tarjetas de crédito/débito y cuentas bancarias (CLABE).
-- **🔒 Privacidad de Datos:** Enmascaramiento de información sensible con lógica de "revelado" bajo demanda.
-- **🎨 Diseño Premium:** Interfaz Dark Mode con estética Glassmorphism, micro-animaciones y diseño Mobile-First.
-- **⚡ Rendimiento:** Construido sobre Vite para una experiencia de desarrollo y carga ultrarrápida.
+## 📑 Índice de Documentación
+Para facilitar la navegación por el proyecto, hemos dividido la información en secciones especializadas:
+
+### 🚀 Comienzo Rápido
+- **[Guía de Instalación (INSTALL.md)](./docs/INSTALL.md)**: Pasos detallados para configurar y ejecutar el proyecto localmente.
+- **[Backlog de Tareas (BACKLOG.md)](./docs/BACKLOG.md)**: Listado de tareas pendientes y mejoras futuras.
+
+### 🏗️ Arquitectura y Planeación
+- **[Roadmap del Proyecto (PLANNING.md)](./docs/PLANNING.md)**: Seguimiento detallado de las fases de desarrollo y cumplimiento de hitos.
+- **[Diseño Técnico (FRONTEND.md)](./docs/FRONTEND.md)**: Detalles sobre la arquitectura de componentes, estados y estilos.
+- **[Contexto del Negocio (CONTEXT.md)](./docs/CONTEXT.md)**: Requerimientos originales y visión general de la prueba técnica.
+
+---
+
+## ✨ Características Destacadas
+- **🛡️ Seguridad de Grado Bancario:** Manejo de datos sensibles mediante enmascaramiento y revelado bajo demanda.
+- **🎨 UX Premium:** Diseño Dark Mode con estética Glassmorphism, micro-animaciones con Framer Motion y diseño responsivo Mobile-First.
+- **⚡ Tecnología de Punta:** React 18, TypeScript, Vite y TanStack Query para una gestión de datos eficiente.
+- **🌍 Personalización Total:** Motor de temas dinámicos (Accent Colors) y preferencias regionales (Divisas).
 
 ## 🛠️ Stack Tecnológico
-
-- **Core:** [React 18+](https://reactjs.org/) & [TypeScript](https://www.typescriptlang.org/)
-- **Build Tool:** [Vite](https://vitejs.dev/)
-- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
-- **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
-- **Gestión de Estado:** [TanStack Query (React Query)](https://tanstack.com/query/latest) & Context API
-- **Iconos:** [Lucide React](https://lucide.dev/)
-
-## 🚀 Configuración del Proyecto
-
-### Requisitos Previos
-- [Node.js](https://nodejs.org/) (v16 o superior)
-- [npm](https://www.npmjs.com/) o [yarn](https://yarnpkg.com/)
-- Backend de Taveron Wallet ejecutándose (por defecto en `http://127.0.0.1:8000`)
-
-### Instalación
-1. Clonar el repositorio:
-   ```bash
-   git clone <repo-url>
-   ```
-2. Instalar dependencias:
-   ```bash
-   npm install
-   ```
-
-### Variables de Envío
-Crea un archivo `.env` en la raíz del proyecto y añade la URL de tu backend:
-```env
-VITE_API_URL=http://127.0.0.1:8000
-```
-
-### Ejecución
-Para iniciar el servidor de desarrollo:
-```bash
-npm run dev
-```
+| Tecnología | Uso |
+| :--- | :--- |
+| **React 18** | Biblioteca base para la UI |
+| **TypeScript** | Tipado estático para robustez del código |
+| **Vite** | Herramienta de construcción y dev server |
+| **Tailwind CSS** | Framework de estilos utilitarios (v4) |
+| **Framer Motion** | Animaciones y transiciones suaves |
+| **TanStack Query** | Gestión de caché y estados asíncronos |
+| **Lucide React** | Iconografía moderna |
 
 ---
 
-## 📂 Estructura y Documentación
-
-Para entender mejor el proceso de desarrollo y la arquitectura, consulta los siguientes documentos:
-
-- 🗺️ **[PLANNING.md](./PLANNING.md):** Hoja de ruta y seguimiento del progreso.
-- 🏗️ **[FRONTEND.md](./FRONTEND.md):** Plan detallado de implementación técnica.
-- 🎨 **[FRONTEND_INSTRUCTIONS.md](./FRONTEND_INSTRUCTIONS.md):** Guía de diseño y requerimientos originales.
+## 🔐 Compromiso con la Seguridad
+Taveron Wallet ha sido diseñada bajo el principio de **"Seguridad por Diseño"**:
+1. **Zero Plain Text**: Los datos sensibles nunca se exponen en texto plano en el estado global.
+2. **Cifrado End-to-End**: La aplicación actúa como un visor seguro; el descifrado ocurre exclusivamente en el servidor.
+3. **Auditoría**: Cada acción crítica es trazable y genera feedback inmediato al usuario mediante un sistema de notificaciones integrado.
 
 ---
-
-## 🔐 Seguridad
-Esta aplicación maneja datos financieros sensibles. Se han implementado las siguientes medidas:
-1. No se almacenan datos sensibles en texto plano en el estado global.
-2. Los tokens JWT se gestionan de forma segura para evitar ataques XSS.
-3. El frontend actúa como un visor; el descifrado real de los datos ocurre siempre en el servidor.
+&copy; 2026 Taveron Wallet. Todos los derechos reservados.
