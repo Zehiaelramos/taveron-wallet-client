@@ -71,7 +71,7 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
     setIsActionLoading(true);
     const newStatus = method.status === 'active' ? 'inactive' : 'active';
     try {
-      await apiClient.patch(`/payment-methods/${id}/status`, { status: newStatus });
+      await apiClient.patch(`/payment-methods/${id}/status?status=${newStatus}`);
       queryClient.invalidateQueries({ queryKey: ['payment-methods'] });
       queryClient.invalidateQueries({ queryKey: ['payment-method', id] });
       showToast(`Método ${newStatus === 'active' ? 'activado' : 'desactivado'} correctamente`);
