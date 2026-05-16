@@ -116,11 +116,11 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **11.1 Configuración de Entorno de Pruebas**
     - [x] Instalar `@playwright/test` y dependencias de navegador.
     - [x] Configurar `playwright.config.ts` para integración con Vite.
-- [ ] **11.2 Rescate de Pruebas de Navegación (Antigravity Logic)**
-    - [ ] Formalizar prueba de flujo de **Autenticación** (Login/Logout/Registro).
-    - [ ] Formalizar prueba de **Dashboard** (Carga de tarjetas, Empty State, Paginación).
-    - [ ] Formalizar prueba de **Acciones Sensibles** (Revelar ID, Copiar al portapapeles con Toast).
-    - [ ] Formalizar prueba de **Diseño Visual** (Validación de colores, fuentes y responsividad).
+- [x] **11.2 Rescate de Pruebas de Navegación (Antigravity Logic)**
+    - [x] Formalizar prueba de flujo de **Autenticación** (Login/Logout/Registro).
+    - [x] Formalizar prueba de **Dashboard** (Carga de tarjetas, Empty State, Paginación).
+    - [x] Formalizar prueba de **Acciones Sensibles** (Revelar ID, Copiar al portapapeles con Toast).
+    - [x] Formalizar prueba de **Diseño Visual** (Validación de colores, fuentes y responsividad).
 - [ ] **11.3 Integración Continua "Smart" (CI/CD)**
     - [ ] Crear Workflow de GitHub Actions (`.github/workflows/tests.yml`).
     - [ ] Implementar **filtros de ruta** (omitir ejecuciones si solo cambia documentación).
