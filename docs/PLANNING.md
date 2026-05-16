@@ -93,6 +93,10 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 - [x] **7.3 Auditoría Documental**
     - [x] Asegurar que todos los documentos reflejen la arquitectura y estado actual del proyecto.
 
+## 🚀 Fase 8: Optimización de Infraestructura
+- [x] **8.1 Eficiencia de Infraestructura**
+    - [x] Migrar el gestor de paquetes de `npm` a `pnpm` para mejorar tiempos de build.
+
 ---
 
 ## 📈 Estado del Proyecto
@@ -105,3 +109,4 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase 5 | ✅ Completado | 100% |
 | Fase 6 | ✅ Completado | 100% |
 | Fase 7 | ✅ Completado | 100% |
+| Fase 8 | ✅ Completado | 100% |
