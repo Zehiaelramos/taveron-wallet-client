@@ -33,16 +33,18 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
   const { data: method, isLoading, isError } = useQuery<PaymentMethod>({
     queryKey: ['payment-method', id],
     queryFn: async () => {
+      // Intentamos obtener de la caché del listado general primero
       const cached = queryClient.getQueryData<PaymentMethod[]>(['payment-methods']);
       const found = cached?.find(m => m.id === id);
       if (found) return found;
 
+      // Si no está en caché, consultamos el listado (que devuelve datos enmascarados)
       const response = await apiClient.get(`/payment-methods/`);
       return response.data.find((m: PaymentMethod) => m.id === id);
     }
   });
 
-  // Función para revelar el dato real
+  // Función para revelar el dato real (descifrado)
   const handleReveal = async () => {
     if (isRevealed) {
       setIsRevealed(false);
@@ -52,7 +54,8 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
     setIsRevealing(true);
     try {
       const response = await apiClient.get(`/payment-methods/${id}`);
-      setRevealedValue(response.data.identifier);
+      // El backend devuelve 'full_identifier' para los datos descifrados
+      setRevealedValue(response.data.full_identifier);
       setIsRevealed(true);
       showToast('Datos descifrados correctamente', 'info');
     } catch (err: any) {
@@ -68,7 +71,7 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
     setIsActionLoading(true);
     const newStatus = method.status === 'active' ? 'inactive' : 'active';
     try {
-      await apiClient.patch(`/payment-methods/${id}/status?status=${newStatus}`);
+      await apiClient.patch(`/payment-methods/${id}/status`, { status: newStatus });
       queryClient.invalidateQueries({ queryKey: ['payment-methods'] });
       queryClient.invalidateQueries({ queryKey: ['payment-method', id] });
       showToast(`Método ${newStatus === 'active' ? 'activado' : 'desactivado'} correctamente`);
@@ -138,8 +141,8 @@ const MethodDetails: React.FC<Props> = ({ id, onClose }) => {
         </div>
         
         <div className="flex items-center justify-between gap-4">
-          <div className="font-mono text-2xl tracking-[0.15em] text-white flex-1 overflow-hidden truncate">
-            {isRevealed ? revealedValue : method.identifier_masked}
+          <div className="font-mono text-xl sm:text-2xl tracking-[0.15em] text-white flex-1 overflow-hidden truncate">
+            {isRevealed ? revealedValue : method.masked_identifier}
           </div>
           <button
             onClick={handleReveal}

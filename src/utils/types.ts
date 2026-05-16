@@ -6,7 +6,7 @@ export interface PaymentMethod {
   alias: string;
   institution: string;
   currency: string;
-  identifier_masked: string; // El backend devuelve el dato enmascarado en el listado
+  masked_identifier: string; // El backend devuelve el dato enmascarado en el listado
   status: 'active' | 'inactive';
   created_at: string;
 }

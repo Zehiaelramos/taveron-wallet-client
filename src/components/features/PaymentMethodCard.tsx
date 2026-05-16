@@ -43,7 +43,7 @@ const PaymentMethodCard: React.FC<Props> = ({ method, onDetail }) => {
         
         <div className="flex items-center justify-between gap-4">
           <div className="font-mono text-lg sm:text-xl tracking-[0.2em] text-white flex-1 overflow-hidden truncate">
-            {method.identifier_masked}
+            {method.masked_identifier}
           </div>
           <div className="bg-white/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
             <ShieldCheck className="w-4 h-4 text-primary" />
