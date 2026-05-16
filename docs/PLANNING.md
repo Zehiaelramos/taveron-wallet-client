@@ -112,6 +112,23 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
     - [x] Añadir selector de límite de resultados por página.
     - [x] Asegurar sincronización con los parámetros de búsqueda del Backend.
 
+## 🧪 Fase 11: Aseguramiento de Calidad (QA) y Automatización
+- [x] **11.1 Configuración de Entorno de Pruebas**
+    - [x] Instalar `@playwright/test` y dependencias de navegador.
+    - [x] Configurar `playwright.config.ts` para integración con Vite.
+- [ ] **11.2 Rescate de Pruebas de Navegación (Antigravity Logic)**
+    - [ ] Formalizar prueba de flujo de **Autenticación** (Login/Logout/Registro).
+    - [ ] Formalizar prueba de **Dashboard** (Carga de tarjetas, Empty State, Paginación).
+    - [ ] Formalizar prueba de **Acciones Sensibles** (Revelar ID, Copiar al portapapeles con Toast).
+    - [ ] Formalizar prueba de **Diseño Visual** (Validación de colores, fuentes y responsividad).
+- [ ] **11.3 Integración Continua "Smart" (CI/CD)**
+    - [ ] Crear Workflow de GitHub Actions (`.github/workflows/tests.yml`).
+    - [ ] Implementar **filtros de ruta** (omitir ejecuciones si solo cambia documentación).
+    - [ ] Configurar **Caché de Playwright** para optimizar el consumo de recursos y tiempo.
+- [ ] **11.4 Auditoría y Reportes**
+    - [ ] Configurar generación de reportes HTML de Playwright para análisis de fallos.
+    - [ ] Realizar auditoría final de Lighthouse (Performance, Accesibilidad, SEO).
+
 ---
 
 ## 📈 Estado del Proyecto
@@ -127,3 +144,4 @@ Este documento describe el plan de ejecución para la interfaz de usuario de **T
 | Fase 8 | ✅ Completado | 100% |
 | Fase 9 | ✅ Completado | 100% |
 | Fase 10 | ✅ Completado | 100% |
+| Fase 11 | ⏳ Pendiente | 0% |
