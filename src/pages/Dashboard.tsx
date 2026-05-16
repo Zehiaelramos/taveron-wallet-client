@@ -24,6 +24,8 @@ const Dashboard: React.FC = () => {
   const { currency } = useSettings();
   const { openAddMethodModal, openMethodDetails } = useUI();
   const [filterType, setFilterType] = useState<PaymentMethodType | 'all'>('all');
+  const [skip, setSkip] = useState(0);
+  const limit = 6; // Límite de elementos por página para una cuadrícula balanceada
 
   const formatValue = (value: number) => {
     const symbols: Record<string, string> = { MXN: '$', USD: 'US$', EUR: '€' };
@@ -37,9 +39,11 @@ const Dashboard: React.FC = () => {
     isError, 
     error 
   } = useQuery<PaymentMethod[]>({
-    queryKey: ['payment-methods', filterType],
+    queryKey: ['payment-methods', filterType, skip],
     queryFn: async () => {
       const params = new URLSearchParams();
+      params.append('skip', skip.toString());
+      params.append('limit', limit.toString());
       if (filterType !== 'all') {
         params.append('type', filterType);
       }
@@ -47,6 +51,21 @@ const Dashboard: React.FC = () => {
       return response.data;
     }
   });
+
+  const handleFilterChange = (type: PaymentMethodType | 'all') => {
+    setFilterType(type);
+    setSkip(0); // Resetear a la primera página al filtrar
+  };
+
+  const nextPage = () => {
+    if (methods.length === limit) {
+      setSkip(prev => prev + limit);
+    }
+  };
+
+  const prevPage = () => {
+    setSkip(prev => Math.max(0, prev - limit));
+  };
 
   const stats = [
     { label: 'Total en Billetera', value: formatValue(12450), icon: Wallet, color: 'text-primary' },
@@ -135,7 +154,7 @@ const Dashboard: React.FC = () => {
             {filterOptions.map((option) => (
               <button
                 key={option.id}
-                onClick={() => setFilterType(option.id as any)}
+                onClick={() => handleFilterChange(option.id as any)}
                 className={`
                   flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all relative
                   ${filterType === option.id ? 'text-background' : 'text-muted hover:text-white'}
@@ -162,41 +181,66 @@ const Dashboard: React.FC = () => {
             {[1, 2, 3].map(i => <CardSkeleton key={i} />)}
           </div>
         ) : methods.length > 0 ? (
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-          >
-            <AnimatePresence mode="popLayout">
-              {methods.map((method) => (
-                <motion.div
-                  key={method.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <PaymentMethodCard 
-                    method={method} 
-                    onDetail={openMethodDetails}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-            
-            <motion.button 
+          <>
+            <motion.div 
               layout
-              onClick={openAddMethodModal}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="h-52 w-full rounded-2xl border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center space-y-2 group"
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
             >
-              <div className="p-3 rounded-full bg-white/5 group-hover:bg-primary/20 transition-colors">
-                <Plus className="w-6 h-6 text-muted group-hover:text-primary transition-colors" />
+              <AnimatePresence mode="popLayout">
+                {methods.map((method) => (
+                  <motion.div
+                    key={method.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <PaymentMethodCard 
+                      method={method} 
+                      onDetail={openMethodDetails}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              
+              <motion.button 
+                layout
+                onClick={openAddMethodModal}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="h-52 w-full rounded-2xl border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center space-y-2 group"
+              >
+                <div className="p-3 rounded-full bg-white/5 group-hover:bg-primary/20 transition-colors">
+                  <Plus className="w-6 h-6 text-muted group-hover:text-primary transition-colors" />
+                </div>
+                <span className="text-muted font-medium text-sm group-hover:text-primary">Añadir Método</span>
+              </motion.button>
+            </motion.div>
+
+            {/* Pagination Controls */}
+            <div className="flex items-center justify-between pt-8 border-t border-white/5">
+              <div className="text-sm text-muted">
+                Mostrando <span className="text-white font-medium">{methods.length}</span> resultados
               </div>
-              <span className="text-muted font-medium text-sm group-hover:text-primary">Añadir Método</span>
-            </motion.button>
-          </motion.div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prevPage}
+                  disabled={skip === 0}
+                  className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Anterior
+                </button>
+                <button
+                  onClick={nextPage}
+                  disabled={methods.length < limit}
+                  className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
